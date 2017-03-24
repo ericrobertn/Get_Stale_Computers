@@ -38,7 +38,7 @@ background-color:#00008c;
  
 #convert output to html as a string
 import-module activedirectory 
-$domain = "mybofi.local,dev.mybofi.local" 
+$domain = "DOMAIN.LOCAL" 
 $DaysInactive = 90 
 $time = (Get-Date).Adddays(-($DaysInactive))
 $computers = Get-ADComputer -Filter {LastLogonTimeStamp -lt $time} -Properties LastLogonTimeStamp 
@@ -50,8 +50,8 @@ Out-String
  
 #send as mail body
 $paramHash = @{
- To = "eric@bofi.com"
- from = "stalecomputers@bofi.com"
+ To = "TO@DOMAIN.COM"
+ from = "FROM@DOMAIN.COM"
  BodyAsHtml = $True
  Body = $html
  SmtpServer = "ironport.mybofi.local" 
