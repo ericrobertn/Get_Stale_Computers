@@ -41,12 +41,16 @@ import-module activedirectory
 $domain = "DOMAIN.LOCAL" 
 $DaysInactive = 90 
 $time = (Get-Date).Adddays(-($DaysInactive))
+######################################################
+###This is where the main code goes
 $computers = Get-ADComputer -Filter {LastLogonTimeStamp -lt $time} -Properties LastLogonTimeStamp 
- 
+
+######################################################
 # Output hostname and lastLogonTimestamp into CSV
 $html = $computers| select-object Name,@{Name="Stamp"; Expression={[DateTime]::FromFileTime($_.lastLogonTimestamp)}}  |  # export-csv OLD_Computer.csv -notypeinformation
 ConvertTo-Html -Head $head -precontent "<h2>Stale Computers</h2>" -PostContent "<h6> report run $(Get-Date)</h6>" |
 Out-String
+####################################################### 
  
 #send as mail body
 $paramHash = @{
